@@ -2,6 +2,8 @@ import { useContext } from "react";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../provider/AuthProvider";
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Register = () => {
   const {createUser} = useContext(AuthContext);
@@ -11,13 +13,20 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  
+
   const onSubmit = (data) => {
     console.log(data);
     createUser(data.email, data.password)
     .then(result => {
       const loggedUser = result.user;
       console.log(loggedUser);
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "User create successfully",
+        showConfirmButton: false,
+        timer: 1500
+      });
     })
   };
 
@@ -106,6 +115,11 @@ const Register = () => {
                 />
               </div>
             </form>
+            <p className="text-red-500 text-center mb-4">
+              <small>
+                Have an account? <Link to="/login">Login</Link>
+              </small>
+            </p>
           </div>
         </div>
       </div>
